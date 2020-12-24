@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 stores = [
     {
         'name': 'My Wonderful Store',
@@ -18,6 +18,10 @@ app = Flask(__name__)
 # it is opposite from the browser perspective, now we are on the server side
 
 # ENDPOINTS
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 
 # POST /store data: {name:}
 @app.route('/store', methods=['POST'])
@@ -67,7 +71,7 @@ def create_item_in_store(name):
 def get_item_in_store(name):
     for store in stores:
         if store['name'] == name:
-            return jsonify({'items' : store['items'])
+            return jsonify({'items' : store['items']})
     return jsonify({'message': 'store not found'})
 
 app.run(port=5000)
